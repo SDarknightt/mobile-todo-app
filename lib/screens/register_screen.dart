@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../services/auth_service.dart';
+
 class RegisterScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +47,16 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.lime, // background color
+                backgroundColor: Colors.lime, // background color
               ),
               child: Text('Register'),
-              onPressed: () {
-                // Implement your logic here
+              onPressed: () async {
+                final result = await authService.register(
+                  nameController.text,
+                  emailController.text,
+                  passwordController.text,
+                );
+                // Save the token and user info here
               },
             ),
           ],

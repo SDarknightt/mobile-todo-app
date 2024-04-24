@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +36,15 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.lime, // background color
+                backgroundColor: Colors.lime, // background color
               ),
               child: Text('Login'),
-              onPressed: () {
-                // Implement your logic here
+              onPressed: () async {
+                final result = await authService.login(
+                  emailController.text,
+                  passwordController.text,
+                );
+                // Save the token and user info here
               },
             ),
             SizedBox(height: 10),
