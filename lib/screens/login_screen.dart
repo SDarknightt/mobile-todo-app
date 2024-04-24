@@ -40,11 +40,15 @@ class LoginScreen extends StatelessWidget {
               ),
               child: Text('Login'),
               onPressed: () async {
-                final result = await authService.login(
-                  emailController.text,
-                  passwordController.text,
-                );
-                // Save the token and user info here
+                try {
+                  final result = await authService.login(
+                    emailController.text,
+                    passwordController.text,
+                  );
+                  Navigator.pushReplacementNamed(context, '/home');
+                } catch (e) {
+                  print(e);
+                }
               },
             ),
             SizedBox(height: 10),

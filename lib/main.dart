@@ -1,3 +1,4 @@
+import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/login_screen.dart';
 import 'package:client/screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/', // Define a rota inicial
+      initialRoute: '/',
       routes: {
-        '/': (context) => LoginScreen(), // Rota para a tela de login
-        '/register': (context) => RegisterScreen(), // Rota para a tela de registro
+        '/': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/home': (context) => HomeScreen(),
       },
     );
   }
