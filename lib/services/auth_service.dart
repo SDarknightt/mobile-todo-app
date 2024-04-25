@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,11 +7,22 @@ class AuthService {
   final String baseUrl = 'http://10.0.2.2:8080';
 
   //para testar se o token realmente está sendo salvo
-  Future<void> printToken() async {
+  Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    print('Token: $token');
+    return prefs.getString('token');
   }
+
+  Future<void> logOut() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
+      print("TOKEN REMOVIDO: ");
+      print(getToken());
+    } catch (e) {
+      print("Failed logout");
+    }
+  }
+
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
@@ -34,6 +46,8 @@ class AuthService {
       throw Exception('Failed to login');
     }
   }
+
+
 
   Future<Map<String, dynamic>> register(String name, String email, String password) async {
     final response = await http.post(

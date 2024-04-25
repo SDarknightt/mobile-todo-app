@@ -37,7 +37,12 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await authService.printToken();
+          try {
+            await authService.logOut();
+            Navigator.pushReplacementNamed(context, "/");
+          } catch (e) {
+            print("Failed logout");
+          }
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.green,

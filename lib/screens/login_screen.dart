@@ -1,3 +1,4 @@
+import 'package:client/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 
@@ -6,11 +7,17 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
+  //pagina contendo a logica de redirecionamento caso token for nulo
+  Page(BuildContext context){
+    return Container(
+      child: FutureBuilder(
+          future: authService.getToken(),
+          builder: (ctx, snapShot) {
+            if(snapShot.hasData){
+              return HomeScreen();
+            }
+            else{
+              return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -63,6 +70,20 @@ class LoginScreen extends StatelessWidget {
             ),
           ],
         ),
+      );
+            }
+          }
+      )
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Page(context),
       ),
     );
   }
