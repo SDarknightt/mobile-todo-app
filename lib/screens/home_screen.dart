@@ -52,15 +52,60 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: ListView.builder(
-        itemCount: _tasks.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Icon(Icons.square, color: getStatusColor(_tasks[index].status),),
-            title: Text(_tasks[index].title),
-            subtitle: Text(_tasks[index].description),
-          );
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                // Implemente a lógica de filtragem aqui
+              },
+              decoration: InputDecoration(
+                labelText: 'Buscar',
+                suffixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.circle, color: Colors.red),
+                  SizedBox(width: 8),
+                  Text('Fazer'),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.circle, color: Colors.yellow),
+                  SizedBox(width: 8),
+                  Text('Fazendo'),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.circle, color: Colors.green),
+                  SizedBox(width: 8),
+                  Text('Feito'),
+                ],
+              ),
+            ],
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _tasks.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: Icon(Icons.circle, color: getStatusColor(_tasks[index].status)),
+                  title: Text(_tasks[index].title),
+                  subtitle: Text(_tasks[index].description),
+                );
+              },
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
