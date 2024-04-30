@@ -20,6 +20,19 @@ class _HomeScreenState extends State<HomeScreen> {
     fetchAndSetTasks();
   }
 
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'TODO':
+        return Colors.red;
+      case 'DOING':
+        return Colors.yellow;
+      case 'DONE':
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
   Future<void> fetchAndSetTasks() async {
     try {
       final tasks = await taskService.getTasks();
@@ -43,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: _tasks.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(Icons.circle, color: Colors.red),
+            leading: Icon(Icons.square, color: getStatusColor(_tasks[index].status),),
             title: Text(_tasks[index].title),
             subtitle: Text(_tasks[index].description),
           );
