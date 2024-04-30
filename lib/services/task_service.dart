@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:client/model/Task.dart';
 import 'package:http/http.dart' as http;
 
 import 'auth_service.dart';
@@ -8,7 +9,7 @@ class TaskService {
   final String baseUrl = 'http://10.0.2.2:8080';
   final AuthService authService = AuthService();
 
-  Future<List<dynamic>> getTasks() async {
+  Future<List<Task>> getTasks() async {
     final token = await authService.getToken();
     final response = await http.get(
       Uri.parse('$baseUrl/task/getall'),
@@ -20,7 +21,7 @@ class TaskService {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return List<dynamic>.from(data['data']);
+      return (data['data'] as List).map((task) => Task.fromJson(task)).toList();
     } else {
       throw Exception('Erro ao carregar as tarefas');
     }

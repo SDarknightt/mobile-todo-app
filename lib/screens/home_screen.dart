@@ -1,3 +1,4 @@
+import 'package:client/model/Task.dart';
 import 'package:client/services/task_service.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final AuthService authService = AuthService();
   final TaskService taskService = TaskService();
-  List<dynamic> _tasks = [];
+  List<Task> _tasks = [];
 
   @override
   void initState() {
@@ -43,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return ListTile(
             leading: Icon(Icons.circle, color: Colors.red),
-            title: Text(_tasks[index]['title']),
-            subtitle: Text(_tasks[index]['description']),
+            title: Text(_tasks[index].title),
+            subtitle: Text(_tasks[index].description),
           );
         },
       ),
