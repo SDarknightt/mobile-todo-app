@@ -1,5 +1,6 @@
 import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/login_screen.dart';
+import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/home': (context) => HomeScreen(),
+        '/profile': (context) => ProfileScreen(),
       },
     );
   }

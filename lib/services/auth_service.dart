@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/User.dart';
 
 class AuthService {
   final String baseUrl = 'http://10.0.2.2:8080';
@@ -10,6 +11,27 @@ class AuthService {
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
+  }
+
+  Future<User> getUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    if (token != null) {
+      final parts = token.split('.');
+      if (parts.length != 3) {
+        throw Exception('Token inválido');
+      }
+
+      final payload = parts[1];
+      final normalized = base64Url.normalize(payload);
+      final resp = utf8.decode(base64Url.decode(normalized));
+
+      final data = jsonDecode(resp) as Map<String, dynamic>;
+      return User.fromJson(data);
+    } else {
+      throw Exception('Nenhum token encontrado');
+    }
   }
 
   Future<void> logOut() async {

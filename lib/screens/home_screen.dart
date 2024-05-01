@@ -118,6 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Perfil',
           )
         ],
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(
+              context,
+              Navigator.pushReplacementNamed(context, '/profile') as Route<Object?>
+            );
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
