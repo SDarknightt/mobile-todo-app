@@ -17,12 +17,20 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              'Criar a sua conta',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                labelText: 'Name',
-                labelStyle: TextStyle(color: Colors.lime),
-                border: OutlineInputBorder(),
+                labelText: 'Nome',
+                labelStyle: TextStyle(color: Colors.green),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                ),
               ),
             ),
             SizedBox(height: 10),
@@ -30,34 +38,46 @@ class RegisterScreen extends StatelessWidget {
               controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
-                labelStyle: TextStyle(color: Colors.lime),
-                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: Colors.green),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                ),
               ),
             ),
             SizedBox(height: 10),
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: TextStyle(color: Colors.lime),
-                border: OutlineInputBorder(),
+                labelText: 'Senha',
+                labelStyle: TextStyle(color: Colors.green),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
               ),
               obscureText: true,
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lime, // background color
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Colors.green, // foreground color
+                ),
+                child: Text('Cadastrar'),
+                onPressed: () async {
+                  try {
+                      final result = await authService.register(
+                        nameController.text,
+                        emailController.text,
+                        passwordController.text,
+                      );
+                      // Save the token and user info here
+                    Navigator.pushReplacementNamed(context, '/');
+                  } catch (e) {
+                    print(e);
+                  }
+                },
               ),
-              child: Text('Register'),
-              onPressed: () async {
-                final result = await authService.register(
-                  nameController.text,
-                  emailController.text,
-                  passwordController.text,
-                );
-                // Save the token and user info here
-              },
             ),
           ],
         ),

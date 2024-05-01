@@ -22,47 +22,59 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              'Entrar',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
             TextField(
               controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
-                labelStyle: TextStyle(color: Colors.lime),
-                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: Colors.green),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                ),
               ),
             ),
             SizedBox(height: 10),
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: TextStyle(color: Colors.lime),
-                border: OutlineInputBorder(),
+                labelText: 'Senha',
+                labelStyle: TextStyle(color: Colors.green),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                ),
               ),
               obscureText: true,
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lime, // background color
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Colors.green, // foreground color
+                ),
+                child: Text('Entrar'),
+                onPressed: () async {
+                  try {
+                    final result = await authService.login(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                    Navigator.pushReplacementNamed(context, '/home');
+                  } catch (e) {
+                    print(e);
+                  }
+                },
               ),
-              child: Text('Login'),
-              onPressed: () async {
-                try {
-                  final result = await authService.login(
-                    emailController.text,
-                    passwordController.text,
-                  );
-                  Navigator.pushReplacementNamed(context, '/home');
-                } catch (e) {
-                  print(e);
-                }
-              },
-            ),
-            SizedBox(height: 10),
+            ),            SizedBox(height: 10),
             TextButton(
               child: Text(
                 'Não tem uma conta? Cadastre-se',
-                style: TextStyle(color: Colors.lime),
+                style: TextStyle(color: Colors.green),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/register');
