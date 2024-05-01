@@ -16,29 +16,50 @@ class ProfileScreen extends StatelessWidget {
         } else {
           final user = snapshot.data;
           return Scaffold(
-            appBar: AppBar(
-              title: Text('Perfil', textAlign: TextAlign.center),
-              backgroundColor: Colors.white,
-              elevation: 0,
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Nome: ${user?.name}', style: TextStyle(fontSize: 20)),
-                  SizedBox(height: 16),
-                  Text('Email: ${user?.email}', style: TextStyle(fontSize: 20)),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await authService.logOut();
-                      Navigator.pushReplacementNamed(context, "/");
-                    },
-                    child: Text('Sair'),
+            body: Column(
+              children: [
+                Container(
+                  color: Colors.green,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Perfil',
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(user!.name, style: TextStyle(fontSize: 20)),
+                          SizedBox(height: 16),
+                          Text(user!.email, style: TextStyle(fontSize: 20)),
+                          SizedBox(height: 16),
+                          Container(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white, backgroundColor: Colors.green, // foreground color
+                              ),
+                              onPressed: () async {
+                                await authService.logOut();
+                                Navigator.pushReplacementNamed(context, "/");
+                              },
+                              child: Text('Sair'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             bottomNavigationBar: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[

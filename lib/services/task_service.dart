@@ -44,18 +44,17 @@ class TaskService {
     }
   }
 
-  Future<Map<String, dynamic>> createTask(String title, String description, String status) async {
+  Future<Map<String, dynamic>> createTask(String title, String description) async {
     final token = await authService.getToken();
     final response = await http.post(
-      Uri.parse('$baseUrl/tasks'),
+      Uri.parse('$baseUrl/task/create'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode(<String, dynamic>{
         'title': title,
-        'description': description,
-        'status': status,
+        'description': description
       }),
     );
 

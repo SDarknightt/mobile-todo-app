@@ -13,6 +13,26 @@ class _HomeScreenState extends State<HomeScreen> {
   final AuthService authService = AuthService();
   final TaskService taskService = TaskService();
   List<Task> _tasks = [];
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  Future<void> createTask() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await taskService.createTask(
+          titleController.text,
+          descriptionController.text
+        );
+        titleController.clear();
+        descriptionController.clear();
+        fetchAndSetTasks();
+        Navigator.of(context).pop();
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -63,7 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: InputDecoration(
                 labelText: 'Buscar',
                 suffixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30)
+                ),
               ),
             ),
           ),
@@ -128,15 +150,62 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await authService.logOut();
-            Navigator.pushReplacementNamed(context, "/");
-          } catch (e) {
-            print("Failed logout");
-          }
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Criar Tarefa'),
+                content: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextFormField(
+                            controller: titleController,
+                            decoration: InputDecoration(labelText: 'Título'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira um título';
+                              }
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            controller: descriptionController,
+                            decoration: InputDecoration(labelText: 'Descrição'),
+                          ),
+                        ],
+                    )
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    child: Text('Voltar', style: TextStyle(color: Colors.green)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white, backgroundColor: Colors.green,
+                      ),
+                      child: Text('Criar'),
+                      onPressed: createTask,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         backgroundColor: Colors.green,
       ),
     );
