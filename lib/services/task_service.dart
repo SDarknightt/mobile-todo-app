@@ -82,4 +82,25 @@ class TaskService {
     }
   }
 
+  Future<void> updateTask(String id, String title, String description, String status) async {
+    final token = await authService.getToken();
+    final response = await http.post(
+      Uri.parse('$baseUrl/task/edit'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id': id,
+        'title': title,
+        'description': description,
+        'status': status
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Falha ao atualizar a tarefa');
+    }
+  }
+
 }

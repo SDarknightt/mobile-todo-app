@@ -148,7 +148,58 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.blue,
                       icon: Icons.edit,
                       onTap: () {
-
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ListTile(
+                                    leading: Icon(Icons.circle, color: Colors.red),
+                                    title: Text('Fazer'),
+                                    onTap: () async {
+                                      await taskService.updateTask(
+                                          _tasks[index].id,
+                                          _tasks[index].title,
+                                          _tasks[index].description,
+                                          'TODO'
+                                      );
+                                      fetchAndSetTasks();
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.circle, color: Colors.yellow),
+                                    title: Text('Fazendo'),
+                                    onTap: () async {
+                                      await taskService.updateTask(
+                                          _tasks[index].id,
+                                          _tasks[index].title,
+                                          _tasks[index].description,
+                                          'DOING'
+                                      );
+                                      fetchAndSetTasks();
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.circle, color: Colors.green),
+                                    title: Text('Feito'),
+                                    onTap: () async {
+                                      await taskService.updateTask(
+                                          _tasks[index].id,
+                                          _tasks[index].title,
+                                          _tasks[index].description,
+                                          'DONE'
+                                      );
+                                      fetchAndSetTasks();
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
+                        );
                       },
                     ),
                   ],
