@@ -64,4 +64,22 @@ class TaskService {
       throw Exception('Falha ao criar a tarefa');
     }
   }
+
+  Future<void> deleteTask(String id) async {
+    final token = await authService.getToken();
+    final response = await http.delete(
+      Uri.parse('$baseUrl/task/delete'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }, body: jsonEncode(<String, dynamic>{
+        'id': id
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Falha ao deletar a tarefa');
+    }
+  }
+
 }

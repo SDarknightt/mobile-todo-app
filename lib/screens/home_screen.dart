@@ -1,6 +1,7 @@
 import 'package:client/model/Task.dart';
 import 'package:client/services/task_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../services/auth_service.dart';
 
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                // Implemente a lógica de filtragem aqui
+                print(value);
               },
               decoration: InputDecoration(
                 labelText: 'Buscar',
@@ -115,14 +116,42 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+
           Expanded(
             child: ListView.builder(
               itemCount: _tasks.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(Icons.circle, color: getStatusColor(_tasks[index].status)),
-                  title: Text(_tasks[index].title),
-                  subtitle: Text(_tasks[index].description),
+                return Slidable(
+                  actionPane: SlidableDrawerActionPane(),
+                  actionExtentRatio: 0.25,
+                  child: ListTile(
+                    leading: Icon(Icons.circle, color: getStatusColor(_tasks[index].status)),
+                    title: Text(_tasks[index].title),
+                    subtitle: Text(_tasks[index].description),
+                  ),
+                  secondaryActions: <Widget>[
+                    IconSlideAction(
+                      caption: 'Excluir',
+                      color: Colors.red,
+                      icon: Icons.delete,
+                      onTap: () async {
+                        try {
+                          await taskService.deleteTask(_tasks[index].id);
+                          fetchAndSetTasks();
+                        } catch (error) {
+                          print('Erro ao deletar tarefa: $error');
+                        }
+                      },
+                    ),
+                    IconSlideAction(
+                      caption: 'Editar',
+                      color: Colors.blue,
+                      icon: Icons.edit,
+                      onTap: () {
+
+                      },
+                    ),
+                  ],
                 );
               },
             ),
