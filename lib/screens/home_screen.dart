@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (context) => TaskDialog(task: _tasks[index]),
+                        builder: (context) => TaskDialog(task: _tasks[index], fetchAndSetTasks: fetchAndSetTasks),
                       );
                     },
                   ),
