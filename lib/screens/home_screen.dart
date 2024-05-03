@@ -1,9 +1,11 @@
 import 'package:client/model/Task.dart';
+import 'package:client/screens/task_dialog.dart';
 import 'package:client/services/task_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../services/auth_service.dart';
+import '../utils/status_color.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -39,19 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     fetchAndSetTasks();
-  }
-
-  Color getStatusColor(String status) {
-    switch (status) {
-      case 'TODO':
-        return Colors.red;
-      case 'DOING':
-        return Colors.yellow;
-      case 'DONE':
-        return Colors.green;
-      default:
-        return Colors.grey;
-    }
   }
 
   Future<void> fetchAndSetTasks() async {
@@ -128,6 +117,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     leading: Icon(Icons.circle, color: getStatusColor(_tasks[index].status)),
                     title: Text(_tasks[index].title),
                     subtitle: Text(_tasks[index].description),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => TaskDialog(task: _tasks[index]),
+                      );
+                    },
                   ),
                   secondaryActions: <Widget>[
                     IconSlideAction(
