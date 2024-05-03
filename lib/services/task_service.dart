@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:client/model/Task.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 import 'auth_service.dart';
 
@@ -100,6 +102,46 @@ class TaskService {
 
     if (response.statusCode != 200) {
       throw Exception('Falha ao atualizar a tarefa');
+    }
+  }
+
+  Future<void> uploadImageTask(String id, File image) async {
+    final token = await authService.getToken();
+    final url = Uri.parse('$baseUrl/task/upload');
+
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(<String, String>{
+        'Authorization': 'Bearer $token',
+      })
+      ..fields['id'] = id
+      ..files.add(await http.MultipartFile.fromPath(
+        'image',
+        image.path,
+        contentType: MediaType('image', 'jpeg'),
+      ));
+
+    final response = await http.Response.fromStream(await request.send());
+
+    if (response.statusCode != 200) {
+      throw Exception('Falha ao enviar a imagem');
+    }
+  }
+
+  Future<void> removeImageTask(String id) async {
+    final token = await authService.getToken();
+    final response = await http.post(
+      Uri.parse('$baseUrl/task/remove'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id': id,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Falha ao remover a imagem da tarefa');
     }
   }
 

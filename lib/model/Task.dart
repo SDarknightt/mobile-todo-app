@@ -6,6 +6,7 @@ class Task {
   final String creationDate;
   final String responsibleId;
   final bool disabled;
+  final String? imageUrl;
 
   Task({
     required this.id,
@@ -15,6 +16,7 @@ class Task {
     required this.creationDate,
     required this.responsibleId,
     required this.disabled,
+    this.imageUrl,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Task {
       creationDate: json['creationDate'],
       responsibleId: json['responsibleId'],
       disabled: json['disabled'],
+      imageUrl: json['imageUrl'],
     );
   }
 }
