@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../services/auth_service.dart';
 import '../utils/status_color.dart';
+import 'create_task_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -105,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-
           Expanded(
             child: ListView.builder(
               itemCount: _tasks.length,
@@ -228,53 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Criar Tarefa'),
-                content: Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextFormField(
-                            controller: titleController,
-                            decoration: InputDecoration(labelText: 'Título'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Por favor, insira um título';
-                              }
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            controller: descriptionController,
-                            decoration: InputDecoration(labelText: 'Descrição'),
-                          ),
-                        ],
-                    )
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    child: Text('Voltar', style: TextStyle(color: Colors.green)),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  Container(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Colors.green,
-                      ),
-                      child: Text('Criar'),
-                      onPressed: createTask,
-                    ),
-                  ),
-                ],
-              );
-            },
+            builder: (context) => CreateTaskDialog(fetchAndSetTasks: fetchAndSetTasks),
           );
         },
         child: const Icon(
