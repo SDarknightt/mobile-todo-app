@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:client/model/Task.dart';
 import 'package:client/screens/task_dialog.dart';
 import 'package:client/services/task_service.dart';
@@ -20,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  Timer? _timer;
 
   Future<void> createTask() async {
     if (_formKey.currentState!.validate()) {
@@ -42,6 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     fetchAndSetTasks();
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      fetchAndSetTasks();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   Future<void> fetchAndSetTasks() async {
