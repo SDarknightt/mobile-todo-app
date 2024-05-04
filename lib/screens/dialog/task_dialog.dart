@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../model/Task.dart';
-import '../services/task_service.dart';
-import '../utils/status_color.dart';
+import '../../model/Task.dart';
+import '../../services/task_service.dart';
+import '../../utils/status_color.dart';
 import 'edit_task_dialog.dart';
 
 class TaskDialog extends StatefulWidget {

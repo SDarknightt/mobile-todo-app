@@ -60,15 +60,22 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
         ),
       ),
       actions: [
-        TextButton(
-          child: Text('Voltar', style: TextStyle(color: Colors.green)),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          child: Text('Criar', style: TextStyle(color: Colors.blue)),
-          onPressed: createTask,
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                child: Text('Voltar', style: TextStyle(color: Colors.green)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Criar', style: TextStyle(color: Colors.blue)),
+                onPressed: createTask,
+              ),
+            ],
+          ),
         ),
       ],
     );

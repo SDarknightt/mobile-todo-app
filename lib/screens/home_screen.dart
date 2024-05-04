@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:client/model/Task.dart';
-import 'package:client/screens/task_dialog.dart';
+import 'package:client/screens/dialog/task_dialog.dart';
 import 'package:client/services/task_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../services/auth_service.dart';
 import '../utils/status_color.dart';
-import 'create_task_dialog.dart';
+import 'dialog/create_task_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -71,27 +71,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tarefas', textAlign: TextAlign.center),
-        backgroundColor: Colors.white,
+        title: Text('Tarefas', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.green,
+        centerTitle: true,
         elevation: 0,
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) {
-                print(value);
-              },
-              decoration: InputDecoration(
-                labelText: 'Buscar',
-                suffixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30)
-                ),
-              ),
-            ),
-          ),
+          SizedBox(height:15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -118,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+          SizedBox(height:15),
           Expanded(
             child: ListView.builder(
               itemCount: _tasks.length,
@@ -151,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     IconSlideAction(
-                      caption: 'Editar',
+                      caption: 'Status',
                       color: Colors.blue,
                       icon: Icons.edit,
                       onTap: () {
@@ -229,10 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         onTap: (index) {
           if (index == 1) {
-            Navigator.push(
-              context,
-              Navigator.pushReplacementNamed(context, '/profile') as Route<Object?>
-            );
+            Navigator.pushReplacementNamed(context, '/profile');
           }
         },
       ),
@@ -248,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
         ),
         backgroundColor: Colors.green,
+        shape: CircleBorder(),
       ),
     );
   }

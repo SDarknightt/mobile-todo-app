@@ -22,11 +22,23 @@ class ProfileScreen extends StatelessWidget {
                   color: Colors.green,
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Perfil',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
-                      textAlign: TextAlign.center,
+                    padding: const EdgeInsets.all(50),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.white,
+                          child: Text(
+                            user!.name[0].toUpperCase(),
+                            style: TextStyle(fontSize: 60, color: Colors.green),
+                          ),
+                        ),
+                        Text(
+                          'Perfil',
+                          style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -37,21 +49,28 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(user!.name, style: TextStyle(fontSize: 20)),
+                          Text(user!.name, style: TextStyle(fontSize: 40)),
                           SizedBox(height: 16),
                           Text(user!.email, style: TextStyle(fontSize: 20)),
                           SizedBox(height: 16),
                           Container(
-                            width: double.infinity,
+                            width: 200,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white, backgroundColor: Colors.green, // foreground color
+                                foregroundColor: Colors.white, backgroundColor: Colors.green,
                               ),
                               onPressed: () async {
                                 await authService.logOut();
                                 Navigator.pushReplacementNamed(context, "/");
                               },
-                              child: Text('Sair'),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.logout),
+                                  SizedBox(width: 10),
+                                  Text('Sair', style: TextStyle(fontSize: 20)),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -72,9 +91,9 @@ class ProfileScreen extends StatelessWidget {
                   label: 'Perfil',
                 ),
               ],
-              currentIndex: 1, // Perfil é a tab ativa
+              currentIndex: 1,
               onTap: (index) {
-                if (index == 0) { // Se a tab de tarefas for selecionada
+                if (index == 0) {
                   Navigator.pushReplacementNamed(context, '/home');
                 }
               },
